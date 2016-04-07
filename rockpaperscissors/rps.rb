@@ -8,16 +8,19 @@ def prompt(message)
   puts "=> #{message}"
 end
 
-# Method that compares player x cpu play
+# Checks who won the match
+def win?(first, second)
+  first == 'rock' && second == 'scissor' ||
+    first == 'paper' && second == 'rock' ||
+    first == 'scissor' && second == 'paper'
+end
+
+# Method that displays the result of the match
 def display_results(man, cpu)
-  if man == 'rock' && cpu == 'paper' ||
-      man == 'paper' && cpu == 'scissor' ||
-      man == 'scissor' && cpu == 'rock'
-    prompt("#{man} against #{cpu}. You lost!")
-  elsif man == 'rock' && cpu == 'scissor' ||
-      man == 'scissor' && cpu == 'paper' ||
-      man == 'paper' && cpu == 'rock'
+  if win?(man, cpu)
     prompt("#{man} against #{cpu}. You won!")
+  elsif win?(cpu, man)
+    prompt("#{man} against #{cpu}. You lost!")
   else
     prompt("#{man} against #{cpu}. It's a tie!")
   end
