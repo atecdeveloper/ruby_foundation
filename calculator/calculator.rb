@@ -1,4 +1,6 @@
 # Calculator program
+
+
 operation = ''
 run_calc = 'n'
 num1 = ''
@@ -30,46 +32,35 @@ end
 
 while run_calc != "y"
   prompt("---------- Calc v3.0 ----------")
-  loop do 
+  loop do
     prompt("Choose first number")
     num1 = gets.chomp
-    if valid_number?(num1)
-      break
-    else
-      prompt("Thats not a valid number!")
-    end
-  end 
-  
-  loop do 
+    valid_number?(num1) ? break : prompt("Thats not a valid number!")
+  end
+
+  loop do
     prompt("Choose second number")
     num2 = gets.chomp
-    if valid_number?(num2)
-      break
-    else
-      prompt("Thats not a valid number!")
-    end
+    valid_number?(num2) ? break : prompt("Thats not a valid number!")
   end
 
   # Block of message to output on prompt
   operator_prompt = <<-MSG
-  What operator would you like to perform
+    What operator would you like to perform
     .Plus
     .Minus
     .Divide
     .Multiple
   MSG
-  
+
   prompt(operator_prompt)
-  
+
   loop do
+    ope_msg = "Must choose (plus/minus/divide/multiple)"
     operation = gets.chomp.downcase
-    if %w(plus minus divide multiple).include?(operation)
-      break
-    else
-      prompt("Must choose (plus/minus/divide/multiple)")  
-    end
+    %w(plus minus divide multiple).include?(operation) ? break : prompt(ope_msg)
   end
-  
+
   prompt("-------------------------------")
   prompt("#{num1} #{operation} #{num2} = #{calculate(operation, num1, num2)}")
   prompt("-------------------------------")

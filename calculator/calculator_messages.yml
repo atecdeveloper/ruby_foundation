@@ -1,0 +1,15 @@
+# calculator_messages.yml
+
+header: "---------- Calc v3.0 ----------"
+opt1: "Choose first number"
+opt2: "Choose second number"
+opterror: "Thats not a valid number!"
+opt_prompt: <<-MSG
+    What operator would you like to perform
+    .Plus
+    .Minus
+    .Divide
+    .Multiple
+MSG
+operation: "Must choose (plus/minus/divide/multiple)"
+exit: "Do you want to exit? (y/n)"
