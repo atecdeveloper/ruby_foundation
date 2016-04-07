@@ -21,7 +21,6 @@ def monthly_payment(amount, rate, years)
   months = years.to_i * 12
   monthly_payment = amount.to_f * (monthly_apr /
                     (1 - (1 + monthly_apr)**-months.to_i))
-  monthly_payment
 end
 
 # def duration_isvalid?(months)
