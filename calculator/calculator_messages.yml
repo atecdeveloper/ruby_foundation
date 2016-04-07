@@ -1,15 +1,19 @@
 # calculator_messages.yml
 
-header: "---------- Calc v3.0 ----------"
-opt1: "Choose first number"
-opt2: "Choose second number"
-opterror: "Thats not a valid number!"
-opt_prompt: <<-MSG
-    What operator would you like to perform
-    .Plus
-    .Minus
-    .Divide
-    .Multiple
-MSG
-operation: "Must choose (plus/minus/divide/multiple)"
-exit: "Do you want to exit? (y/n)"
+# Internationalize messages
+en:
+  header: "---------- Calc v3.0 ----------"
+  opt1: "Choose first number."
+  opt2: "Choose second number."
+  opterror: "Thats not a valid number!"
+  oper: "Must choose (plus/minus/divide/multiple)"
+  exit: "Do you want to exit? (y/n)"
+  dash: "-------------------------------"
+pt-br:
+  header: "---------- Calc v3.0 ----------"
+  opt1: "Escolha o primeiro número."
+  opt2: "Escolha o segundo número"
+  opterror: "Este número não é válido!"
+  oper: "Deve escolher (plus/minus/divide/multiple)"
+  dash: "-------------------------------"
+  exit: "Deseja sair do programa? (y/n)"

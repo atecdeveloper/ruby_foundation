@@ -1,13 +1,23 @@
 # Calculator program
-
+require 'yaml'
+MESSAGES = YAML.load_file('calculator_messages.yml')
 
 operation = ''
 run_calc = 'n'
 num1 = ''
 num2 = ''
+message = ''
+LANGUAGE = 'en'
+#LANGUAGE = 'pt-br'
+
+# Choosing message/language from yml file
+def messages(message, lang='en')
+  MESSAGES[lang][message]
+end
 
 # Prompts a default message
-def prompt(message)
+def prompt(key)
+  message = messages(key, LANGUAGE)
   puts "=> #{message}"
 end
 
@@ -30,40 +40,44 @@ def calculate(op, x, y)
   end
 end
 
+# Shows result
+def show_result(num1, num2, operation)
+  puts "=> #{num1} #{operation} #{num2} = #{calculate(operation, num1, num2)}"
+end
+
 while run_calc != "y"
-  prompt("---------- Calc v3.0 ----------")
+  prompt('header')
   loop do
-    prompt("Choose first number")
+    prompt('opt1')
     num1 = gets.chomp
-    valid_number?(num1) ? break : prompt("Thats not a valid number!")
+    valid_number?(num1) ? break : prompt('opterror')
   end
 
   loop do
-    prompt("Choose second number")
+    prompt('opt2')
     num2 = gets.chomp
-    valid_number?(num2) ? break : prompt("Thats not a valid number!")
+    valid_number?(num2) ? break : prompt('opterror')
   end
 
   # Block of message to output on prompt
   operator_prompt = <<-MSG
-    What operator would you like to perform
+=>   What operation would you like to perform
     .Plus
     .Minus
     .Divide
     .Multiple
   MSG
 
-  prompt(operator_prompt)
+  puts operator_prompt
 
   loop do
-    ope_msg = "Must choose (plus/minus/divide/multiple)"
     operation = gets.chomp.downcase
-    %w(plus minus divide multiple).include?(operation) ? break : prompt(ope_msg)
+    %w(plus minus divide multiple).include?(operation) ? break : prompt('oper')
   end
 
-  prompt("-------------------------------")
-  prompt("#{num1} #{operation} #{num2} = #{calculate(operation, num1, num2)}")
-  prompt("-------------------------------")
-  prompt("Do you want to exit? (y/n)")
+  prompt('dash')
+  show_result(num1, num2, operation)
+  prompt('dash')
+  prompt('exit')
   run_calc = gets.chomp.downcase
 end
