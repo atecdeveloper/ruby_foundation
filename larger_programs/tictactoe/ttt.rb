@@ -54,9 +54,40 @@ def player_places_piece!(brd)
   brd[square] = PLAYER_MARKER
 end
 
+# CPU search for a immediate threat
+def find_at_risk_square(line, board, marker)
+  if board.values_at(*line).count(marker) == 2
+    mark = board.select{|k,v| line.include?(k) && v == INITIAL_MARKER}
+    mark.keys.first
+  else
+    nil
+  end
+end
+
 # Chooses where the CPU will mark in the board
 def computer_places_piece!(brd)
-  square = empty_squares(brd).sample
+  square = nil
+  
+  # defense move
+  WINNING_LINES.each do |line|
+    square = find_at_risk_square(line, brd, PLAYER_MARKER)
+    break if square
+  end
+
+  # offense move
+  if !square
+    WINNING_LINES.each do |line|
+    square = find_at_risk_square(line, brd, CPU_MARKER)
+    break if square
+  end
+
+  end
+
+  # neutral move
+  if !square 
+   square = empty_squares(brd).sample 
+  end
+
   brd[square] = CPU_MARKER
 end
 
