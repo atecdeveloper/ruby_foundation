@@ -41,6 +41,25 @@ def empty_squares(brd)
   brd.keys.select { |num| brd[num] == INITIAL_MARKER }
 end
 
+# Decide who going to play in that turn
+def place_piece!(brd, crt_player)
+  case crt_player
+  when 'PLR'
+    player_places_piece!(brd)
+  when 'CPU'
+    computer_places_piece!(brd)
+  end
+end
+
+# Alternate player between turns
+def alternate_player(crt_player)
+  if crt_player == 'PLR'
+    return 'CPU'
+  elsif crt_player == 'CPU'
+    return 'PLR'
+  end
+end
+
 # Chooses where the player wants to mark in the board
 def player_places_piece!(brd)
   square = ''
@@ -57,39 +76,37 @@ end
 # CPU search for a immediate threat
 def find_at_risk_square(line, board, marker)
   if board.values_at(*line).count(marker) == 2
-    mark = board.select{|k,v| line.include?(k) && v == INITIAL_MARKER}
+    mark = board.select { |k, v| line.include?(k) && v == INITIAL_MARKER }
     mark.keys.first
-  else
-    nil
   end
 end
 
 # Chooses where the CPU will mark in the board
 def computer_places_piece!(brd)
   square = nil
-  
-  # defensive move
+
+  # offensive move
   WINNING_LINES.each do |line|
-    square = find_at_risk_square(line, brd, PLAYER_MARKER)
+    square = find_at_risk_square(line, brd, CPU_MARKER)
     break if square
   end
 
-  # offensive move
+  # defensive move
   if !square
     WINNING_LINES.each do |line|
-      square = find_at_risk_square(line, brd, CPU_MARKER)
+      square = find_at_risk_square(line, brd, PLAYER_MARKER)
       break if square
     end
   end
 
   # optimized first move, choose the center
   if empty_squares(brd).include?(5)
-    square = 5 
+    square = 5
   end
 
   # neutral move
-  if !square 
-   square = empty_squares(brd).sample 
+  if !square
+    square = empty_squares(brd).sample
   end
 
   brd[square] = CPU_MARKER
@@ -121,16 +138,29 @@ def detect_winner(brd)
   nil
 end
 
+current_player = ' '
+option = ' '
+start = %w(h t)
 loop do
   board = initialize_board
 
   loop do
+    prompt 'Choose heads or tails!'
+    option = gets.chomp.downcase[0, 1]
+    system 'clear'
+    option == 'h' || option == 't' ? break : prompt('Invalid choice!')
+  end
+
+  if start.sample == option
+    current_player = 'PLR'
+  else
+    current_player = 'CPU'
+  end
+
+  loop do
     display_board(board)
-
-    player_places_piece!(board)
-    break if someone_won?(board) || board_full?(board)
-
-    computer_places_piece!(board)
+    place_piece!(board, current_player)
+    current_player = alternate_player(current_player)
     break if someone_won?(board) || board_full?(board)
   end
 
@@ -144,5 +174,6 @@ loop do
 
   prompt "Play again? (y or n)"
   answer = gets.chomp
+  system 'clear'
   break unless answer.downcase.start_with?('y')
 end
