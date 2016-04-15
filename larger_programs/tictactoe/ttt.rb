@@ -68,19 +68,23 @@ end
 def computer_places_piece!(brd)
   square = nil
   
-  # defense move
+  # defensive move
   WINNING_LINES.each do |line|
     square = find_at_risk_square(line, brd, PLAYER_MARKER)
     break if square
   end
 
-  # offense move
+  # offensive move
   if !square
     WINNING_LINES.each do |line|
-    square = find_at_risk_square(line, brd, CPU_MARKER)
-    break if square
+      square = find_at_risk_square(line, brd, CPU_MARKER)
+      break if square
+    end
   end
 
+  # optimized first move, choose the center
+  if empty_squares(brd).include?(5)
+    square = 5 
   end
 
   # neutral move
