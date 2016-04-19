@@ -5,14 +5,14 @@ def prompt(msg)
   puts "=> #{msg}"
 end
 
-# Initialize deck than suffles it 
+# Initialize deck than suffles it
 def initialize_deck
   SUITS.product(VALUES).shuffle
 end
 
 # Returns the sum from cards
 def total(cards)
-  values = cards.map { |card| card[1]}
+  values = cards.map { |card| card[1] }
 
   sum = 0
   values.each do |value|
@@ -26,9 +26,9 @@ def total(cards)
   end
 
   # correct for Aces
-  values.select { |value| value == 'A'}.count.times do
+  values.select { |value| value == 'A' }.count.times do
     sum -= 10 if sum > 21
-  end    
+  end
 
   sum
 end
@@ -51,7 +51,7 @@ def detect_results(dealer_cards, player_cards)
   elsif dealer_total > player_total
     :dealer
   else
-    :tie 
+    :tie
   end
 end
 
@@ -89,15 +89,15 @@ loop do
 
   # initial deal
   2.times do
-    player_cards << deck.pop 
+    player_cards << deck.pop
     dealer_cards << deck.pop
   end
 
   prompt "Dealer has #{dealer_cards[0]} and ?"
-  prompt "You have: #{player_cards[0]} and #{player_cards[1]}, "
-  + "for a total of #{total(player_cards)}"
+  prompt "You have: #{player_cards[0]} and #{player_cards[1]},
+   for a total of #{total(player_cards)}"
 
-  #player_turn
+  # player_turn
   loop do
     player_turn = nil
     loop do
