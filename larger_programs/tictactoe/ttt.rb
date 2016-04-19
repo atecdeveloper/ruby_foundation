@@ -140,7 +140,7 @@ end
 
 current_player = ' '
 option = ' '
-start = %w(h t)
+coin = %w(h t)
 loop do
   board = initialize_board
 
@@ -151,7 +151,7 @@ loop do
     option == 'h' || option == 't' ? break : prompt('Invalid choice!')
   end
 
-  if start.sample == option
+  if coin.sample == option
     current_player = 'PLR'
   else
     current_player = 'CPU'
